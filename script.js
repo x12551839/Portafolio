@@ -206,45 +206,105 @@ document.addEventListener('DOMContentLoaded', function() {
     // =============================================
     // Visualización de habilidades 3D
     // =============================================
-    if (typeof Chart !== 'undefined') {
-        const skillCtx = document.getElementById('skillChart');
-        
-        if (skillCtx) {
-            const skillChart = new Chart(skillCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Frontend', 'Servidores', 'Optimización', 'Testing', 'Aprendizaje', 'DevOps'],
-                    datasets: [{
-                        label: 'Nivel de Habilidad',
-                        data: [90, 60, 88, 40, 95, 50],
-                        backgroundColor: 'rgba(66, 133, 244, 0.2)',
-                        borderColor: 'rgba(66, 133, 244, 1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: 'rgba(66, 133, 244, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: 'rgba(66, 133, 244, 1)',
-                        pointHoverBorderColor: '#fff',
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2
-                    }]
+// =============================================
+// Visualización de habilidades 3D
+// =============================================
+if (typeof Chart !== 'undefined') {
+    const skillCtx = document.getElementById('skillChart');
+
+    if (skillCtx) {
+        // Registrar el plugin
+        Chart.register(ChartDataLabels);
+
+        const skillChart = new Chart(skillCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Frontend', 'Servidores Linux', 'Optimización', 'Testing', 'Aprendizaje', 'Git y GitHub'],
+                datasets: [{
+                    label: 'Nivel de Habilidad', // <-- Este es el texto que aparece en leyenda y tooltip
+                    // Para darle estilo como color, tamaño o tipo de fuente:
+                    // Estilízalo dentro de `options.plugins.legend.labels` (si activas la leyenda)
+                    // y en `options.plugins.tooltip` para el tooltip
+                    data: [90, 75, 88, 60, 95, 80],
+                    backgroundColor: 'rgba(66, 133, 244, 0.2)',
+                    borderColor: 'rgba(66, 133, 244, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(66, 133, 244, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: 'rgba(66, 133, 244, 1)',
+                    pointHoverBorderColor: '#fff',
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: '#222',
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        },
+                        formatter: value => value + '%',
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 4
+                    },
+                    // Puedes activar y estilizar la leyenda aquí para que se vea el label
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: 'gray', // Color del texto del label
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            padding: 10,
+                            boxWidth: 15
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `${ctx.dataset.label}: ${ctx.formattedValue}%`
+                        },
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 12 },
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff'
+                    }
                 },
-                options: {
-                    scale: {
-                        angleLines: { display: true },
-                        ticks: { suggestedMin: 0, suggestedMax: 100, backdropColor: 'transparent' },
-                        pointLabels: { fontSize: 12, fontColor: 'var(--text)' }
+                scale: {
+                    angleLines: { display: true },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        backdropColor: 'transparent',
+                        color: '#888',
+                        font: {
+                            size: 10
+                        }
                     },
-                    legend: { display: false },
-                    animation: {
-                        duration: 2000,
-                        easing: 'easeOutQuart'
-                    },
-                    maintainAspectRatio: false
-                }
-            });
-        }
+                    pointLabels: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: 'var(--text)' // Asegúrate de definir esta variable CSS
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                },
+                maintainAspectRatio: false
+            }
+        });
     }
+}
+
     
     // =============================================
     // Modal de proyectos

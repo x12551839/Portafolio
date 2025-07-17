@@ -241,7 +241,7 @@ if (typeof Chart !== 'undefined') {
             options: {
                 plugins: {
                     datalabels: {
-                        color: '#222',
+                       color: 'gray',
                         font: {
                             weight: 'bold',
                             size: 13
